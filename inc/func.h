@@ -20,7 +20,7 @@ struct relation
 };
 
 
-void set(nuplet_t *ps_n, int col, int val);
+void set(nuplet_t *ps_n, const int col, const int val);
 void new_nuplet(nuplet_t *ps_n, const int size);
 void insert(relation_t *ps_r, const nuplet_t *ps_n);
 void disp_relation(const relation_t *ps_r);

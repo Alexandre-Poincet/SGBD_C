@@ -23,6 +23,7 @@ $(EXEC): $(OBJ)
 
 
 $(OBJDIR)/main.o: $(INCDIR)/func.h
+$(OBJDIR)/func.o: $(INCDIR)/func.h
 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c

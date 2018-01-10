@@ -1,51 +1,70 @@
-/*
- * Programme funct.c
- * Création d'une mini base de données en mémoire
- * pour illustrer l'algèbre relationnelle
- */
-
+#include "../inc/func.h"
 
 #include <stdio.h>
-#include <stdlib.h>
-#include "../inc/funct.h"
 
-void new_nuplet(nuplet_t *ps_n, const int size){
-	ps_n->p_val =  (int*) malloc(sizeof(int)*size);
-	ps_n->size = size;
-}
-
-void new_relation(relation_t *ps_r, const int maxsize){
-	temp.ligne = (NUPLET*) malloc(sizeof(NUPLET)*maxsize);
-	temp.sizemax = maxsize;
-	temp.size = 0;
-	temp.attsize = attsize;
-}
-
-void set(NUPLET n, int col, int val){
-	n.val[col] = val;
-}
-
-int get(NUPLET n, int col){
-	return n.val[col];
-}
-
-int compatible(RELATION r, NUPLET n){
-	if(r.attsize == n.size)
-		return 1;
-	else
-		return 0;
-}
-
-void insert (RELATION* r, NUPLET n){
-	if((r->size < r->sizemax) && (compatible(*r,n)==1)){
-		r->ligne[r->size] = n;
-		r->size++;
+void new_nuplet(nuplet_t *ps_n, const int size)
+{
+	if(ps_n != NULL)
+	{
+		ps_n->p_val =  calloc(sizeof(int), size);
+		ps_n->size = size;
 	}
 }
 
-NUPLET getNUPLET(RELATION r, int ligne){
-	if(ligne < r.size)
-		return r.ligne[ligne];
+void new_relation(relation_t *ps_r, const int attsize, const int maxsize)
+{
+	if(ps_r != NULL)
+	{
+		ps_r->line = malloc(sizeof(*(ps_r->line)), maxsize);
+		ps_r->sizemax = maxsize;
+		ps_r->size = 0;
+		ps_r->attsize = attsize;
+	}
+}
+
+void set(nuplet_t *ps_n, const int col, const int val)
+{
+	if(ps_n != NULL)
+	{
+		ps_n->val[col] = val;
+	}
+}
+
+int get(nuplet_t *ps_n, const int col)
+{
+	if(ps_n != NULL)
+	{
+		return ps_n->val[col];
+	}
+
+	return -1;
+}
+
+int compatible(const relation_t *ps_r, const nuplet_t *ps_n)
+{
+	if(ps_r != NULL && ps_n != NULL)
+	{
+		if(ps_r->attsize == ps_n->size)
+			return 1;
+		else
+			return 0;
+	}
+
+	return -1;
+}
+
+void insert(relation_t *ps_r, const nuplet_t *ps_n)
+{
+	if((ps_r->size < ps_r->sizemax) && (compatible(ps_r, ps_n) == 1))
+	{
+		ps_r->line[ps_r->size] = n;
+		ps_r->size++;
+	}
+}
+
+nuplet_t get_nuplet(relation_t *ps_r, const int line){
+	if(line < ps_r->size)
+		return ps_r->line[line];
 }
 
 void afficheNUPLET(NUPLET n){
