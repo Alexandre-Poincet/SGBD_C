@@ -1,6 +1,7 @@
 #include "../inc/func.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void new_nuplet(nuplet_t *ps_n, const int size)
 {
@@ -15,7 +16,7 @@ void new_relation(relation_t *ps_r, const int attsize, const int maxsize)
 {
 	if(ps_r != NULL)
 	{
-		ps_r->line = malloc(sizeof(*(ps_r->line)), maxsize);
+		ps_r->line = calloc(sizeof(*(ps_r->line)), maxsize);
 		ps_r->sizemax = maxsize;
 		ps_r->size = 0;
 		ps_r->attsize = attsize;
@@ -26,15 +27,15 @@ void set(nuplet_t *ps_n, const int col, const int val)
 {
 	if(ps_n != NULL)
 	{
-		ps_n->val[col] = val;
+		ps_n->p_val[col] = val;
 	}
 }
 
-int get(nuplet_t *ps_n, const int col)
+int get(const nuplet_t *ps_n, const int col)
 {
 	if(ps_n != NULL)
 	{
-		return ps_n->val[col];
+		return ps_n->p_val[col];
 	}
 
 	return -1;
@@ -53,95 +54,73 @@ int compatible(const relation_t *ps_r, const nuplet_t *ps_n)
 	return -1;
 }
 
-void insert(relation_t *ps_r, const nuplet_t *ps_n)
+void insert(relation_t *ps_r, const nuplet_t s_n)
 {
-	if((ps_r->size < ps_r->sizemax) && (compatible(ps_r, ps_n) == 1))
+	if((ps_r->size < ps_r->sizemax) && (compatible(ps_r, &s_n) == 1))
 	{
-		ps_r->line[ps_r->size] = n;
+		ps_r->line[ps_r->size] = s_n;
 		ps_r->size++;
 	}
 }
 
-nuplet_t get_nuplet(relation_t *ps_r, const int line){
+nuplet_t get_nuplet(const relation_t *ps_r, const int line)
+{
 	if(line < ps_r->size)
 		return ps_r->line[line];
 }
 
-void afficheNUPLET(NUPLET n){
+void disp_nuplet(const nuplet_t *ps_n)
+{
 	int i;
-	for(i=0;i<n.size;i++){
-		printf("%d ", n.val[i]);
+
+	for(i = 0; i < ps_n->size; i++)
+	{
+		printf("%d ", ps_n->p_val[i]);
 	}
 }
 
 
-void afficheRELATION(RELATION r){
+void disp_relation(const relation_t *ps_r)
+{
 	int i;
-	printf("RELATION === Taille %d sur %d\n================== \n", r.size, r.sizemax);
-	for(i=0;i<r.size;i++){
-		afficheNUPLET(getNUPLET(r, i));
+	nuplet_t tmp;
+
+	printf("RELATION === Taille %d sur %d\n================== \n", ps_r->size, ps_r->sizemax);
+	
+	for(i = 0; i < ps_r->size; i++)
+	{
+		tmp = get_nuplet(ps_r, i);
+		disp_nuplet(&tmp);
 		printf("\n");
 	}
 	printf("================== \n");
 }
 
-/**
- *
- * IMPLEMENTATION DES OPERATEURS
- *
- **/
-
-RELATION OpUnion(RELATION r1, RELATION r2){
-	RELATION temp = newRELATION(r1.attsize, r1.sizemax + r2.sizemax);
-	int i;
-	if(r1.attsize == r2.attsize){
-		for(i=0;i<r1.size;i++){
-			insert(&temp, getNUPLET(r1, i));
-		}
-		for(i=0;i<r2.size;i++){
-			insert(&temp, getNUPLET(r2, i));
-		}
-		return temp;
-	}
-}
-
-
-/*
- * Programma principal
- */
-int main(int argc, char **argv)
+relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2)
 {
-	printf("Creation d'un nuplet.");
-	NUPLET n = newNUPLET(3);
-	set(n, 0, 1);
-	set(n, 1, 32);
-	set(n, 2, -1);
-	printf("\n");
-	afficheNUPLET(n);
-	printf("Creation d'une relation.");
-	RELATION p = newRELATION(3, 10);
-	insert(&p, n);
-	printf("\n");
-	afficheRELATION(p);
+	relation_t *ps_temp = malloc(sizeof(*ps_temp));
 
-	NUPLET n2 = newNUPLET(3);
-	set(n2, 0, 2);
-	set(n2, 1, 42);
-	set(n2, 2, -15);
-	insert(&p, n2);
+	if(ps_temp == NULL)
+	{
+		return NULL;
+	}
 
+	new_relation(ps_temp, ps_r1->attsize, ps_r1->sizemax + ps_r2->sizemax);
 
-	NUPLET n3 = newNUPLET(3);
-	set(n3, 0, 3);
-	set(n3, 1, 62);
-	set(n3, 2, -99);
+	int i;
+	
+	if(ps_r1->attsize == ps_r2->attsize)
+	{
+		for(i = 0; i < ps_r1->size; i++)
+		{
+			insert(ps_temp, get_nuplet(ps_r1, i));
+		}
+		
+		for(i = 0; i < ps_r2->size; i++)
+		{
+			insert(ps_temp, get_nuplet(ps_r2, i));
+		}
 
-
-	RELATION q = newRELATION(3, 10);
-	insert(&q, n3);
-
-	RELATION res = OpUnion(q, p);
-	afficheRELATION(res);
-
-	return 0;
+		return ps_temp;
+	}
 }

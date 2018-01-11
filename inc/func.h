@@ -22,7 +22,8 @@ struct relation
 
 void set(nuplet_t *ps_n, const int col, const int val);
 void new_nuplet(nuplet_t *ps_n, const int size);
-void insert(relation_t *ps_r, const nuplet_t *ps_n);
+void new_relation(relation_t *ps_r, const int attsize, const int maxsize);
+void insert(relation_t *ps_r, const nuplet_t ps_n);
 void disp_relation(const relation_t *ps_r);
 void disp_nuplet(const nuplet_t *n);
 
@@ -31,7 +32,7 @@ int compatible(const relation_t *ps_r, const nuplet_t *ps_n);
  
 nuplet_t get_nuplet(const relation_t *ps_r, const int ligne);
 
-relation_t op_union(relation_t *ps_r1, relation_t *ps_r2);
+relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2);
 relation_t op_inter(relation_t *ps_r1, relation_t *ps_r2);
 relation_t op_restriction_cst(relation_t *ps_r1, const int att, const int operateur, const int valeur); 
 relation_t op_restriction_att(relation_t *ps_r1, const int att1, const int operateur, const int att2);
