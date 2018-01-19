@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 	printf("\n");
 
 
-	printf("relation 6 INTER(a,b):\n");
+	printf("relation 6 INTER(a,res):\n");
 	relation_t *c = op_inter(&a, res);
 	disp_relation(c);
 	printf("\n");
@@ -90,7 +90,22 @@ int main(int argc, char **argv)
 	disp_relation(d);
 	printf("\n");
 
+	printf("relation 8 RES_CST(res, 0) : \n");
+	relation_t *x = op_restriction_cst(res, 1, 4, 32);
+	disp_relation(x);
+	printf("\n");
 
+
+	printf("relaiton 0 RES_CST(res) : \n");
+	relation_t *y = op_restriction_cst(res, 2, 6, -70);
+	disp_relation(y);
+	printf("\n");
+
+
+	free(y->line);
+	free(y);
+	free(x->line);
+	free(x);
 	free(res->line);
 	free(res);
 	free(p.line);

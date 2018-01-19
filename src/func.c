@@ -54,6 +54,27 @@ int compatible(const relation_t *ps_r, const nuplet_t *ps_n)
 	return -1;
 }
 
+int cmp_nuplet(const nuplet_t *p_tmp1, const nuplet_t *p_tmp2)
+{
+	int i = 0;
+	int ret = 0;
+
+	if(p_tmp1->size != p_tmp2->size)
+	{
+		return -1;
+	}
+
+	for(; i < p_tmp1->size; i++)
+	{
+		if(p_tmp1->p_val[i] != p_tmp2->p_val[i])
+		{
+			ret = -1;
+		}
+	}
+
+	return ret;
+}
+
 void insert(relation_t *ps_r, const nuplet_t s_n)
 {
 	if((ps_r->size < ps_r->sizemax) && (compatible(ps_r, &s_n) == 1))
@@ -136,7 +157,7 @@ relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2)
 
 	new_relation(ps_temp, ps_r1->attsize, 10);
 
-	int i, j, k, ok = 1;
+	int i, j;
 
 	for(i = 0; i < ps_r1->size; i++)
 	{
@@ -146,23 +167,78 @@ relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2)
 		{
 			nuplet_t tmp2 = get_nuplet(ps_r2, j);
 
-			for(k = 0; k < tmp1.size && k < tmp2.size; k++)
-			{
-				if(tmp1.p_val[k] != tmp2.p_val[k])
-				{
-					ok = 0;
-					break;
-				}
-			}
-
-			if(ok)
+			if(cmp_nuplet(&tmp1, &tmp2) == 0)
 			{
 				insert(ps_temp, tmp1);
 			}
-
-			ok = 1;
 		}
 	}
 
+	return ps_temp;
+}
+
+relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int operateur, const int valeur)
+{
+	// 4 = ; >= 6; > 2; <= 5; < 1; != 3
+	
+	int i = 0;
+	relation_t *ps_temp = malloc(sizeof(*ps_temp));
+
+	if(ps_temp == NULL)
+	{
+		return NULL;
+	}
+
+	new_relation(ps_temp, ps_r1->size, 10);
+
+	printf("%d\n", ps_r1->size);
+
+	for(i = 0; i < ps_r1->size; i++) 
+	{
+		printf("%d\n", i);
+		nuplet_t tmp1 = get_nuplet(ps_r1, i); 
+		
+		switch(operateur)
+		{
+			case 4:
+				if(tmp1.p_val[att] == valeur)
+				{
+					printf("insert");
+					insert(ps_temp, tmp1);
+				}
+				break;
+			case 6:
+				if(tmp1.p_val[att] >= valeur)
+				{
+					insert(ps_temp, tmp1);
+				}
+				break;
+			case 2:
+				if(tmp1.p_val[att] > valeur)
+				{
+					insert(ps_temp, tmp1);
+				}
+				break;
+			case 5:
+				if(tmp1.p_val[att] <= valeur)
+				{
+					insert(ps_temp, tmp1);
+				}
+				break;
+			case 1:
+				if(tmp1.p_val[att] < valeur)
+				{
+					insert(ps_temp, tmp1);
+				}
+				break;
+			case 3:
+				if(tmp1.p_val[att] != valeur)
+				{
+					insert(ps_temp, tmp1);
+				}
+				break;
+		}
+	}
+	
 	return ps_temp;
 }
