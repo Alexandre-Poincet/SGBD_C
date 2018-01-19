@@ -36,9 +36,9 @@ nuplet_t get_nuplet(const relation_t *ps_r, const int ligne);
 relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2);
 relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2);
 relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int operateur, const int valeur); 
-relation_t op_restriction_att(relation_t *ps_r1, const int att1, const int operateur, const int att2);
-relation_t op_projection(relation_t *ps_r1, int* attributs, const int taille);
-relation_t op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2);
-relation_t op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, const int attr2);
+relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int operateur, const int att2);
+relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille);
+relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2);
+relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, const int attr2);
 
 #endif // FUNC_H
