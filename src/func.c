@@ -124,3 +124,45 @@ relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2)
 		return ps_temp;
 	}
 }
+
+relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2)
+{
+	relation_t *ps_temp = malloc(sizeof(*ps_temp));
+
+	if(ps_temp == NULL)
+	{
+		return NULL;
+	}
+
+	new_relation(ps_temp, ps_r1->attsize, 10);
+
+	int i, j, k, ok = 1;
+
+	for(i = 0; i < ps_r1->size; i++)
+	{
+		nuplet_t tmp1 = get_nuplet(ps_r1, i);
+
+		for(j = 0; j < ps_r2->size; j++)
+		{
+			nuplet_t tmp2 = get_nuplet(ps_r2, j);
+
+			for(k = 0; k < tmp1.size && k < tmp2.size; k++)
+			{
+				if(tmp1.p_val[k] != tmp2.p_val[k])
+				{
+					ok = 0;
+					break;
+				}
+			}
+
+			if(ok)
+			{
+				insert(ps_temp, tmp1);
+			}
+
+			ok = 1;
+		}
+	}
+
+	return ps_temp;
+}

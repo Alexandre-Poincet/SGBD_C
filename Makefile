@@ -1,5 +1,5 @@
 C=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -g
 LDFLAGS=
 EXEC=sgbd
 
