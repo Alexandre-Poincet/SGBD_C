@@ -95,13 +95,18 @@ int main(int argc, char **argv)
 	disp_relation(x);
 	printf("\n");
 
-
-	printf("relaiton 0 RES_CST(res) : \n");
+	printf("relaiton 9 RES_CST(res) : \n");
 	relation_t *y = op_restriction_cst(res, 2, 6, -70);
 	disp_relation(y);
 	printf("\n");
 
+	printf("relation 10 RES_ATT(res, 32)");
+	relation_t *z = op_restriction_att(res, 0, 6, 2);
+	disp_relation(z);
+	printf("\n");
 
+	free(z->line);
+	free(z);
 	free(y->line);
 	free(y);
 	free(x->line);

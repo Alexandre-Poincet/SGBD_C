@@ -180,7 +180,7 @@ relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2)
 relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int operateur, const int valeur)
 {
 	// 4 = ; >= 6; > 2; <= 5; < 1; != 3
-	
+
 	int i = 0;
 	relation_t *ps_temp = malloc(sizeof(*ps_temp));
 
@@ -203,7 +203,6 @@ relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int opera
 			case 4:
 				if(tmp1.p_val[att] == valeur)
 				{
-					printf("insert");
 					insert(ps_temp, tmp1);
 				}
 				break;
@@ -241,4 +240,84 @@ relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int opera
 	}
 	
 	return ps_temp;
+}
+
+relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int operateur, const int att2)
+{
+	// 4 = ; >= 6; > 2; <= 5; < 1; != 3
+
+	relation_t *p_temp = malloc(sizeof(*p_temp));
+
+	int i, j, bool = 0;
+
+	if(p_temp == NULL)
+	{
+		return NULL;
+	}
+
+	new_relation(p_temp, ps_r1->attsize, 100);
+
+	for(i = 0; i < ps_r1->size; i++)
+	{
+		nuplet_t tmp1 = get_nuplet(ps_r1, i);
+
+		for(j = 0; j < ps_r1->size; j++)
+		{
+			nuplet_t tmp2 = get_nuplet(ps_r1, j);
+			
+			switch(operateur)
+			{
+				case 4:
+					if(tmp1.p_val[att1] == tmp2.p_val[att2])
+					{
+						insert(p_temp, tmp2);
+						bool = 1;
+					}
+					break;
+				case 6:
+					if(tmp1.p_val[att1] >= tmp2.p_val[att2])
+					{
+						insert(p_temp, tmp2);
+						bool = 1;
+					}
+					break;
+				case 2:
+					if(tmp1.p_val[att1] > tmp2.p_val[att2])
+					{
+						insert(p_temp, tmp2);
+						bool = 1;
+					}
+					break;
+				case 5:
+					if(tmp1.p_val[att1] <= tmp2.p_val[att2])
+					{
+						insert(p_temp, tmp2);
+						bool = 1;
+					}
+					break;
+				case 1:
+					if(tmp1.p_val[att1] < tmp2.p_val[att2])
+					{
+						insert(p_temp, tmp2);
+						bool = 1;
+					}
+					break;
+				case 3:
+					if(tmp1.p_val[att1] != tmp2.p_val[att2])
+					{
+						insert(p_temp, tmp2);
+						bool = 1;
+					}
+					break;
+			}
+
+			if(bool)
+			{
+				bool = 0;
+				//insert(p_temp, tmp1);
+			}
+		}
+	}
+
+	return p_temp;
 }
