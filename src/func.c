@@ -155,7 +155,9 @@ relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2)
 		return NULL;
 	}
 
-	new_relation(ps_temp, ps_r1->attsize, 10);
+	int sizemax = (ps_r1->sizemax > ps_r2->sizemax) ? ps_r2->sizemax : ps_r1->sizemax;
+
+	new_relation(ps_temp, ps_r1->attsize, sizemax);
 
 	int i, j;
 
@@ -189,7 +191,7 @@ relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int opera
 		return NULL;
 	}
 
-	new_relation(ps_temp, ps_r1->size, 10);
+	new_relation(ps_temp, ps_r1->size, ps_r1->sizemax);
 
 	printf("%d\n", ps_r1->size);
 
@@ -255,7 +257,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 		return NULL;
 	}
 
-	new_relation(p_temp, ps_r1->attsize, 100);
+	new_relation(p_temp, ps_r1->attsize, ps_r1->sizemax);
 
 	for(i = 0; i < ps_r1->size; i++)
 	{
