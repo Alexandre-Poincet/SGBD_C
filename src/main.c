@@ -115,6 +115,14 @@ int main(int argc, char **argv)
 	disp_relation(zzz);
 	printf("\n");
 
+	int i;
+
+	for(i = 0; i < zzz->size; i++)
+	{
+		nuplet_t tmp = get_nuplet(zzz, i);
+		free(tmp.p_val);
+	}
+
 	free(zzz->line);
 	free(zzz);
 	free(zz->line);
