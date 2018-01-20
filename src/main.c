@@ -105,6 +105,13 @@ int main(int argc, char **argv)
 	disp_relation(z);
 	printf("\n");
 
+	printf("relation 11 RES_ATT(a)\n");
+	relation_t *zz = op_restriction_att(&a, 0, 6, 2);
+	disp_relation(zz);
+	printf("\n");
+
+	free(zz->line);
+	free(zz);
 	free(z->line);
 	free(z);
 	free(y->line);

@@ -248,7 +248,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 
 	relation_t *p_temp = malloc(sizeof(*p_temp));
 
-	int i, j, bool = 0;
+	int i, j, k, bool = 1;
 
 	if(p_temp == NULL)
 	{
@@ -270,51 +270,153 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 				case 4:
 					if(tmp1.p_val[att1] == tmp2.p_val[att2])
 					{
-						insert(p_temp, tmp2);
-						bool = 1;
+						for(k = 0; k < p_temp->size; k++)
+						{
+							nuplet_t tmp3 = get_nuplet(p_temp, k);
+							
+							if(cmp_nuplet(&tmp3, &tmp2) == 0)
+							{
+								bool = 0;
+								break;
+							}
+
+							else
+							{
+								bool = 1;
+							}
+						}
+						
+						if(bool)
+						{
+							insert(p_temp, tmp2);
+						}
 					}
 					break;
 				case 6:
 					if(tmp1.p_val[att1] >= tmp2.p_val[att2])
 					{
-						insert(p_temp, tmp2);
-						bool = 1;
+						for(k = 0; k < p_temp->size; k++)
+						{
+							nuplet_t tmp3 = get_nuplet(p_temp, k);
+							
+							if(cmp_nuplet(&tmp3, &tmp2) == 0)
+							{
+								bool = 0;
+								break;
+							}
+
+							else
+							{
+								bool = 1;
+							}
+						}
+						
+						if(bool)
+						{
+							insert(p_temp, tmp2);
+						}
 					}
 					break;
 				case 2:
 					if(tmp1.p_val[att1] > tmp2.p_val[att2])
 					{
-						insert(p_temp, tmp2);
-						bool = 1;
+						for(k = 0; k < p_temp->size; k++)
+						{
+							nuplet_t tmp3 = get_nuplet(p_temp, k);
+							
+							if(cmp_nuplet(&tmp3, &tmp2) == 0)
+							{
+								bool = 0;
+								break;
+							}
+
+							else
+							{
+								bool = 1;
+							}
+						}
+						
+						if(bool)
+						{
+							insert(p_temp, tmp2);
+						}
 					}
 					break;
 				case 5:
 					if(tmp1.p_val[att1] <= tmp2.p_val[att2])
 					{
-						insert(p_temp, tmp2);
-						bool = 1;
+						for(k = 0; k < p_temp->size; k++)
+						{
+							nuplet_t tmp3 = get_nuplet(p_temp, k);
+							
+							if(cmp_nuplet(&tmp3, &tmp2) == 0)
+							{
+								bool = 0;
+								break;
+							}
+
+							else
+							{
+								bool = 1;
+							}
+						}
+						
+						if(bool)
+						{
+							insert(p_temp, tmp2);
+						}
 					}
 					break;
 				case 1:
 					if(tmp1.p_val[att1] < tmp2.p_val[att2])
 					{
-						insert(p_temp, tmp2);
-						bool = 1;
+						for(k = 0; k < p_temp->size; k++)
+						{
+							nuplet_t tmp3 = get_nuplet(p_temp, k);
+							
+							if(cmp_nuplet(&tmp3, &tmp2) == 0)
+							{
+								bool = 0;
+								break;
+							}
+
+							else
+							{
+								bool = 1;
+							}
+						}
+						
+						if(bool)
+						{
+							insert(p_temp, tmp2);
+						}
 					}
 					break;
 				case 3:
 					if(tmp1.p_val[att1] != tmp2.p_val[att2])
 					{
-						insert(p_temp, tmp2);
-						bool = 1;
+						for(k = 0; k < p_temp->size; k++)
+						{
+							nuplet_t tmp3 = get_nuplet(p_temp, k);
+							
+							if(cmp_nuplet(&tmp3, &tmp2) == 0)
+							{
+								bool = 0;
+								break;
+							}
+
+							else
+							{
+								bool = 1;
+							}
+						}
+						
+						if(bool)
+						{
+							insert(p_temp, tmp2);
+						}
 					}
 					break;
-			}
-
-			if(bool)
-			{
-				bool = 0;
-				//insert(p_temp, tmp1);
 			}
 		}
 	}
