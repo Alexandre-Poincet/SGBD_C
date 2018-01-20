@@ -24,6 +24,7 @@ void set(nuplet_t *ps_n, const int col, const int val);
 void new_nuplet(nuplet_t *ps_n, const int size);
 void new_relation(relation_t *ps_r, const int attsize, const int maxsize);
 void insert(relation_t *ps_r, const nuplet_t ps_n);
+void concatene_nuplet(nuplet_t *ps_res, nuplet_t *ps_a, nuplet_t *ps_b);
 void disp_relation(const relation_t *ps_r);
 void disp_nuplet(const nuplet_t *n);
 

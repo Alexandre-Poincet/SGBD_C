@@ -23,6 +23,22 @@ void new_relation(relation_t *ps_r, const int attsize, const int maxsize)
 	}
 }
 
+void concatene_nuplet(nuplet_t *ps_res, nuplet_t *ps_a, nuplet_t *ps_b)
+{
+	int i;
+	int j;
+
+	for(i = 0; i < ps_a->size && i < ps_res->size; i++)
+	{
+		ps_res->p_val[i] = ps_a->p_val[i];
+	}
+
+	for(j = 0; j < ps_b->size && i+j < ps_res->size; j++)
+	{
+		ps_res->p_val[i + j] = ps_b->p_val[j];
+	}
+}
+
 void set(nuplet_t *ps_n, const int col, const int val)
 {
 	if(ps_n != NULL)
@@ -424,4 +440,37 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 	}
 
 	return p_temp;
+}
+
+relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2)
+{
+	int i,j;
+	relation_t *ps_tmp = malloc(sizeof(*ps_tmp));
+
+	if(ps_tmp == NULL)
+	{
+		return NULL;
+	}
+
+	new_relation(ps_tmp, ps_r1->attsize + ps_r2->attsize, ps_r1->sizemax * ps_r2->sizemax);
+
+	for(i = 0; i < ps_r1->size; i++)
+	{
+		nuplet_t tmp1 = get_nuplet(ps_r1, i);
+
+		for(j = 0; j < ps_r2->size; j++)
+		{
+			nuplet_t tmp2 = get_nuplet(ps_r2, j);
+
+			nuplet_t tmp3;
+
+			new_nuplet(&tmp3, tmp1.size + tmp2.size);
+
+			concatene_nuplet(&tmp3, &tmp1, &tmp2);
+
+			insert(ps_tmp, tmp3);
+		}
+	}
+
+	return ps_tmp;
 }

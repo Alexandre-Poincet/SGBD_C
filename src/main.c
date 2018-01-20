@@ -110,6 +110,13 @@ int main(int argc, char **argv)
 	disp_relation(zz);
 	printf("\n");
 
+	printf("relation 12 REST_PROD_CAR(res,a)\n");
+	relation_t *zzz = op_produit_cartesien(res, &a);
+	disp_relation(zzz);
+	printf("\n");
+
+	free(zzz->line);
+	free(zzz);
 	free(zz->line);
 	free(zz);
 	free(z->line);
