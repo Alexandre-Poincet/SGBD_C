@@ -589,5 +589,14 @@ void add_relation_tab(tab_relation_t *ps_tab, relation_t *ps_r){
 }
 
 relation_t* find_relation(tab_relation_t *ps_tab, char *name){
+
+	/*int i;
+
+	for(i = 0; i < ps_tab->size; i++)
+	{
+		if(strcmp(name, ps_tab->relations->name) == 0)
+			return &(ps_tab->relations[0]);
+	}*/
+
 	return &(ps_tab->relations[0]);
 }
