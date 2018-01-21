@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void new_nuplet(nuplet_t *ps_n, const int size)
 {
@@ -123,7 +124,7 @@ void disp_relation(const relation_t *ps_r)
 	nuplet_t tmp;
 
 	printf("RELATION === Taille %d sur %d\n================== \n", ps_r->size, ps_r->sizemax);
-	
+
 	for(i = 0; i < ps_r->size; i++)
 	{
 		tmp = get_nuplet(ps_r, i);
@@ -145,14 +146,14 @@ relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2)
 	new_relation(ps_temp, ps_r1->attsize, ps_r1->sizemax + ps_r2->sizemax);
 
 	int i;
-	
+
 	if(ps_r1->attsize == ps_r2->attsize)
 	{
 		for(i = 0; i < ps_r1->size; i++)
 		{
 			insert(ps_temp, get_nuplet(ps_r1, i));
 		}
-		
+
 		for(i = 0; i < ps_r2->size; i++)
 		{
 			insert(ps_temp, get_nuplet(ps_r2, i));
@@ -211,11 +212,11 @@ relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int opera
 
 	printf("%d\n", ps_r1->size);
 
-	for(i = 0; i < ps_r1->size; i++) 
+	for(i = 0; i < ps_r1->size; i++)
 	{
 		printf("%d\n", i);
-		nuplet_t tmp1 = get_nuplet(ps_r1, i); 
-		
+		nuplet_t tmp1 = get_nuplet(ps_r1, i);
+
 		switch(operateur)
 		{
 			case 4:
@@ -256,7 +257,7 @@ relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int opera
 				break;
 		}
 	}
-	
+
 	return ps_temp;
 }
 
@@ -282,7 +283,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 		for(j = 0; j < ps_r1->size; j++)
 		{
 			nuplet_t tmp2 = get_nuplet(ps_r1, j);
-			
+
 			switch(operateur)
 			{
 				case 4:
@@ -291,7 +292,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 						for(k = 0; k < p_temp->size; k++)
 						{
 							nuplet_t tmp3 = get_nuplet(p_temp, k);
-							
+
 							if(cmp_nuplet(&tmp3, &tmp2) == 0)
 							{
 								bool = 0;
@@ -303,7 +304,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 								bool = 1;
 							}
 						}
-						
+
 						if(bool)
 						{
 							insert(p_temp, tmp2);
@@ -316,7 +317,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 						for(k = 0; k < p_temp->size; k++)
 						{
 							nuplet_t tmp3 = get_nuplet(p_temp, k);
-							
+
 							if(cmp_nuplet(&tmp3, &tmp2) == 0)
 							{
 								bool = 0;
@@ -328,7 +329,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 								bool = 1;
 							}
 						}
-						
+
 						if(bool)
 						{
 							insert(p_temp, tmp2);
@@ -341,7 +342,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 						for(k = 0; k < p_temp->size; k++)
 						{
 							nuplet_t tmp3 = get_nuplet(p_temp, k);
-							
+
 							if(cmp_nuplet(&tmp3, &tmp2) == 0)
 							{
 								bool = 0;
@@ -353,7 +354,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 								bool = 1;
 							}
 						}
-						
+
 						if(bool)
 						{
 							insert(p_temp, tmp2);
@@ -366,7 +367,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 						for(k = 0; k < p_temp->size; k++)
 						{
 							nuplet_t tmp3 = get_nuplet(p_temp, k);
-							
+
 							if(cmp_nuplet(&tmp3, &tmp2) == 0)
 							{
 								bool = 0;
@@ -378,7 +379,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 								bool = 1;
 							}
 						}
-						
+
 						if(bool)
 						{
 							insert(p_temp, tmp2);
@@ -391,7 +392,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 						for(k = 0; k < p_temp->size; k++)
 						{
 							nuplet_t tmp3 = get_nuplet(p_temp, k);
-							
+
 							if(cmp_nuplet(&tmp3, &tmp2) == 0)
 							{
 								bool = 0;
@@ -403,7 +404,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 								bool = 1;
 							}
 						}
-						
+
 						if(bool)
 						{
 							insert(p_temp, tmp2);
@@ -416,7 +417,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 						for(k = 0; k < p_temp->size; k++)
 						{
 							nuplet_t tmp3 = get_nuplet(p_temp, k);
-							
+
 							if(cmp_nuplet(&tmp3, &tmp2) == 0)
 							{
 								bool = 0;
@@ -428,7 +429,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 								bool = 1;
 							}
 						}
-						
+
 						if(bool)
 						{
 							insert(p_temp, tmp2);
@@ -473,4 +474,78 @@ relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2)
 	}
 
 	return ps_tmp;
+}
+
+relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, const int attr2){
+	int i = 0;
+	int j = 0;
+
+	relation_t *ps_tmp = malloc(sizeof(*ps_tmp));
+
+	if(ps_tmp == NULL)
+	{
+		return NULL;
+	}
+
+	new_relation(ps_tmp, ps_r1->attsize+ps_r2->attsize, ps_r1->size+ps_r1->size);
+	sort_relation(ps_r1,attr1,0,ps_r1->size);
+	sort_relation(ps_r2,attr2,0,ps_r2->size);
+
+	for(i = 0; i < ps_r1->size; i++)
+	{
+		nuplet_t tmp1 = ps_r1->line[i];
+		int matched=0;
+		for(j = 0; j < ps_r2->size; j++){
+			nuplet_t tmp2 = ps_r2->line[j];
+			if(tmp1.p_val[attr1]==tmp2.p_val[attr2]){
+				nuplet_t n;
+				new_nuplet(&n, ps_r1->attsize+ps_r2->attsize);
+				int z;
+				for(z=0; z<tmp1.size;z++){
+					set(&n, z, tmp1.p_val[z]);
+				}
+				for(z=0; z<tmp2.size;z++){
+					set(&n, tmp1.size+z, tmp2.p_val[z]);
+				}
+				insert(ps_tmp, n);
+				matched=1;
+			}
+			else if(matched){
+				continue;
+			}
+		}
+	}
+	return ps_tmp;
+}
+
+// ===== Sorting relation_t ======
+
+void sort_relation(relation_t *ps_r1, int attr, int l, int r)
+{
+	// Bubble sort
+	int i, j;
+	int n=ps_r1->size;
+	for (i = 0; i < n-1; i++)
+		for (j = 0; j < n-i-1; j++)
+			if ((ps_r1->line[j]).p_val[attr] > (ps_r1->line[j+1]).p_val[attr])
+				invert_nuplet(&(ps_r1->line[j]), &(ps_r1->line[j+1]));
+}
+
+void copy_nuplet(nuplet_t *ps_n_dest, nuplet_t *ps_n_src){
+	if(ps_n_dest != NULL && ps_n_src != NULL)
+	{
+		ps_n_dest->p_val =  calloc(sizeof(int), ps_n_src->size);
+		memcpy(ps_n_dest->p_val, ps_n_src->p_val, sizeof(int)*ps_n_src->size);
+		ps_n_dest->size = ps_n_src->size;
+	}
+}
+
+void invert_nuplet(nuplet_t *ps_n1, nuplet_t *ps_n2){
+	if(ps_n1 != NULL && ps_n2 != NULL && ps_n1->size==ps_n2->size)
+	{
+		int* tmp;
+		tmp=ps_n1->p_val;
+		ps_n1->p_val=ps_n2->p_val;
+		ps_n2->p_val=tmp;
+	}
 }

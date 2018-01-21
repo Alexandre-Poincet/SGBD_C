@@ -6,7 +6,7 @@
 int main(int argc, char **argv)
 {
 	printf("nuplet 1 :\n");
-	nuplet_t n;	
+	nuplet_t n;
 	new_nuplet(&n, 3);
 	set(&n, 0, 1);
 	set(&n, 1, 32);
@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 	disp_nuplet(&n);
 	printf("\n");
 
-	printf("relation 1 : \n.");	
+	printf("relation 1 : \n.");
 	relation_t p;
 	new_relation(&p, 3, 10);
 	insert(&p, n);
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	set(&n2, 1, 42);
 	set(&n2, 2, -15);
 	insert(&p, n2);
-	disp_nuplet(&n2);	
+	disp_nuplet(&n2);
 	printf("\n");
 
 	printf("nuplet 3 :\n");
@@ -79,11 +79,47 @@ int main(int argc, char **argv)
 	printf("\n");
 
 
+
+	printf("nuplet 6 :\n");
+	nuplet_t n6;
+	new_nuplet(&n6, 3);
+	set(&n6, 0, 32);
+	set(&n6, 1, 1000);
+	set(&n6, 2, 1001);
+	disp_nuplet(&n2);
+	printf("\n");
+
+	printf("nuplet 7 :\n");
+	nuplet_t n7;
+	new_nuplet(&n7, 3);
+	set(&n7, 0, 32);
+	set(&n7, 1, 2000);
+	set(&n7, 2, 2001);
+	disp_nuplet(&n7);
+	printf("\n");
+
+	printf("nuplet 8 :\n");
+	nuplet_t n8;
+	new_nuplet(&n8, 3);
+	set(&n8, 0, 33);
+	set(&n8, 1, 3000);
+	set(&n8, 2, 3001);
+	disp_nuplet(&n8);
+	printf("\n");
+
+	printf("relation 5 : \n");
+	relation_t g;
+	new_relation(&g, 3, 10);
+	insert(&g, n6);
+	insert(&g, n7);
+	insert(&g, n8);
+	disp_relation(&g);
+
+
 	printf("relation 6 INTER(a,res):\n");
 	relation_t *c = op_inter(&a, res);
 	disp_relation(c);
 	printf("\n");
-
 
 	printf("relation7 INTER(res,res):\n");
 	relation_t *d = op_inter(res,res);
@@ -115,6 +151,11 @@ int main(int argc, char **argv)
 	disp_relation(zzz);
 	printf("\n");
 
+	printf("relation 13 JOINTURE(relation 5, relation 12 , attr 0, attr 1)\n");
+	relation_t *yy = op_jointure(&g, zzz, 0, 1);
+	disp_relation(yy);
+	printf("\n");
+
 	int i;
 
 	for(i = 0; i < zzz->size; i++)
@@ -142,12 +183,17 @@ int main(int argc, char **argv)
 	free(c);
 	free(d->line);
 	free(d);
+	free(g.line);
+	free(yy->line);
+	free(yy);
 
 	free(n.p_val);
 	free(n2.p_val);
 	free(n3.p_val);
 	free(n4.p_val);
 	free(n5.p_val);
+	free(n6.p_val);
+	free(n7.p_val);
 
 	return 0;
 }
