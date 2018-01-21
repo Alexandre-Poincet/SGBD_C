@@ -169,6 +169,16 @@ int main(int argc, char **argv)
 		nuplet_t tmp = get_nuplet(zzz, i);
 		free(tmp.p_val);
 	}
+	for(i = 0; i <yy->size; i++)
+	{
+		nuplet_t tmp = get_nuplet(yy, i);
+		free(tmp.p_val);
+	}
+	for(i = 0; i < yyy->size; i++)
+	{
+		nuplet_t tmp = get_nuplet(yyy, i);
+		free(tmp.p_val);
+	}
 
 	free(zzz->line);
 	free(zzz);
