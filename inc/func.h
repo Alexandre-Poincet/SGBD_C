@@ -15,14 +15,52 @@ struct relation
 	int attsize;
 	int size;
 	int sizemax;
+	char *name;
 
 	nuplet_t *line;
+};
+
+typedef struct tab_relation tab_relation_t;
+struct tab_relation
+{
+	relation_t* relations;
+	int size;
+	int maxsize;
+};
+
+typedef struct clause clause_t;
+struct clause
+{
+	int attr1;
+	int attr2;
+	int operateur;
+};
+
+
+typedef struct select_stmt select_stmt_t;
+struct select_stmt
+{
+	int nb_attr;
+	int nb_tables;
+};
+
+typedef struct token_val token_val_t;
+struct token_val{
+    enum { is_int, is_float, is_str } type;
+    union {
+        int ival;
+        float fval;
+        char *strval;
+    } val;
 };
 
 
 void set(nuplet_t *ps_n, const int col, const int val);
 void new_nuplet(nuplet_t *ps_n, const int size);
 void new_relation(relation_t *ps_r, const int attsize, const int maxsize);
+void new_tab_relation(tab_relation_t *ps_tab, int max_r);
+void add_relation_tab(tab_relation_t *ps_tab, relation_t *ps_r);
+relation_t* find_relation(tab_relation_t *ps_tab, char *name);
 void insert(relation_t *ps_r, const nuplet_t ps_n);
 void concatene_nuplet(nuplet_t *ps_res, nuplet_t *ps_a, nuplet_t *ps_b);
 void copy_nuplet(nuplet_t *ps_n_dest, nuplet_t *ps_n_src);

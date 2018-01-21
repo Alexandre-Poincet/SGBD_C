@@ -208,13 +208,10 @@ relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int opera
 		return NULL;
 	}
 
-	new_relation(ps_temp, ps_r1->size, ps_r1->sizemax);
-
-	printf("%d\n", ps_r1->size);
+	new_relation(ps_temp, ps_r1->attsize, ps_r1->sizemax);
 
 	for(i = 0; i < ps_r1->size; i++)
 	{
-		printf("%d\n", i);
 		nuplet_t tmp1 = get_nuplet(ps_r1, i);
 
 		switch(operateur)
@@ -534,7 +531,7 @@ relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille){
 		nuplet_t tmp1 = ps_r1->line[i];
 		nuplet_t n;
 		new_nuplet(&n, taille);
-		for(int j=0; j<taille;j++){
+		for(j=0; j<taille;j++){
 			set(&n,j,tmp1.p_val[attributs[j]]);
 		}
 		insert(ps_tmp,n);
@@ -572,4 +569,21 @@ void invert_nuplet(nuplet_t *ps_n1, nuplet_t *ps_n2){
 		ps_n1->p_val=ps_n2->p_val;
 		ps_n2->p_val=tmp;
 	}
+}
+
+void new_tab_relation(tab_relation_t *ps_tab, int max_r){
+	ps_tab->relations=calloc(sizeof(relation_t),max_r);
+	ps_tab->size=0;
+	ps_tab->maxsize=max_r;
+}
+
+void add_relation_tab(tab_relation_t *ps_tab, relation_t *ps_r){
+	if(ps_tab->size < ps_tab->maxsize){
+		ps_tab->relations[ps_tab->size]=*ps_r;
+		ps_tab->size++;
+	}
+}
+
+relation_t* find_relation(tab_relation_t *ps_tab, char *name){
+	return &(ps_tab->relations[0]);
 }
