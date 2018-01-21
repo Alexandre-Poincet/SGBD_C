@@ -534,7 +534,7 @@ relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille){
 		nuplet_t tmp1 = ps_r1->line[i];
 		nuplet_t n;
 		new_nuplet(&n, taille);
-		for(int j=0; j<taille;j++){
+		for(j=0; j<taille;j++){
 			set(&n,j,tmp1.p_val[attributs[j]]);
 		}
 		insert(ps_tmp,n);
