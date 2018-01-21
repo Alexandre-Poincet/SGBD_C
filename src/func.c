@@ -13,7 +13,7 @@ void new_nuplet(nuplet_t *ps_n, const int size)
 	}
 }
 
-void new_relation(relation_t *ps_r, const int attsize, const int maxsize)
+void new_relation(relation_t *ps_r, const int attsize, const int maxsize, const char *name, const char *allias)
 {
 	if(ps_r != NULL)
 	{
@@ -21,6 +21,10 @@ void new_relation(relation_t *ps_r, const int attsize, const int maxsize)
 		ps_r->sizemax = maxsize;
 		ps_r->size = 0;
 		ps_r->attsize = attsize;
+		ps_r->name = malloc(sizeof(name) + 1);
+		ps_r->allias = malloc(sizeof(allias) + 1);
+		strcpy(ps_r->name, name);
+		strcpy(ps_r->allias, allias);
 	}
 }
 
@@ -123,7 +127,7 @@ void disp_relation(const relation_t *ps_r)
 	int i;
 	nuplet_t tmp;
 
-	printf("RELATION === Taille %d sur %d\n================== \n", ps_r->size, ps_r->sizemax);
+	printf("RELATION %s - %s === Taille %d sur %d\n================== \n", ps_r->name, ps_r->allias, ps_r->size, ps_r->sizemax);
 
 	for(i = 0; i < ps_r->size; i++)
 	{
@@ -134,7 +138,7 @@ void disp_relation(const relation_t *ps_r)
 	printf("================== \n");
 }
 
-relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2)
+relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2, const char *name, const char *allias)
 {
 	relation_t *ps_temp = malloc(sizeof(*ps_temp));
 
@@ -143,7 +147,7 @@ relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2)
 		return NULL;
 	}
 
-	new_relation(ps_temp, ps_r1->attsize, ps_r1->sizemax + ps_r2->sizemax);
+	new_relation(ps_temp, ps_r1->attsize, ps_r1->sizemax + ps_r2->sizemax, name, allias);
 
 	int i;
 
@@ -163,7 +167,7 @@ relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2)
 	}
 }
 
-relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2)
+relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2, const char *name, const char *allias)
 {
 	relation_t *ps_temp = malloc(sizeof(*ps_temp));
 
@@ -174,7 +178,7 @@ relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2)
 
 	int sizemax = (ps_r1->sizemax > ps_r2->sizemax) ? ps_r2->sizemax : ps_r1->sizemax;
 
-	new_relation(ps_temp, ps_r1->attsize, sizemax);
+	new_relation(ps_temp, ps_r1->attsize, sizemax, name, allias);
 
 	int i, j;
 
@@ -196,7 +200,7 @@ relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2)
 	return ps_temp;
 }
 
-relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int operateur, const int valeur)
+relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int operateur, const int valeur, const char *name, const char *allias)
 {
 	// 4 = ; >= 6; > 2; <= 5; < 1; != 3
 
@@ -208,7 +212,7 @@ relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int opera
 		return NULL;
 	}
 
-	new_relation(ps_temp, ps_r1->attsize, ps_r1->sizemax);
+	new_relation(ps_temp, ps_r1->attsize, ps_r1->sizemax, name, allias);
 
 	for(i = 0; i < ps_r1->size; i++)
 	{
@@ -258,7 +262,7 @@ relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int opera
 	return ps_temp;
 }
 
-relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int operateur, const int att2)
+relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int operateur, const int att2, const char *name, const char *allias)
 {
 	// 4 = ; >= 6; > 2; <= 5; < 1; != 3
 
@@ -271,7 +275,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 		return NULL;
 	}
 
-	new_relation(p_temp, ps_r1->attsize, ps_r1->sizemax);
+	new_relation(p_temp, ps_r1->attsize, ps_r1->sizemax, name, allias);
 
 	for(i = 0; i < ps_r1->size; i++)
 	{
@@ -440,7 +444,7 @@ relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int oper
 	return p_temp;
 }
 
-relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2)
+relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2, const char *name, const char *allias)
 {
 	int i,j;
 	relation_t *ps_tmp = malloc(sizeof(*ps_tmp));
@@ -450,7 +454,7 @@ relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2)
 		return NULL;
 	}
 
-	new_relation(ps_tmp, ps_r1->attsize + ps_r2->attsize, ps_r1->sizemax * ps_r2->sizemax);
+	new_relation(ps_tmp, ps_r1->attsize + ps_r2->attsize, ps_r1->sizemax * ps_r2->sizemax, name, allias);
 
 	for(i = 0; i < ps_r1->size; i++)
 	{
@@ -473,7 +477,7 @@ relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2)
 	return ps_tmp;
 }
 
-relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, const int attr2){
+relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, const int attr2, const char *name, const char *allias){
 	int i = 0;
 	int j = 0;
 
@@ -484,7 +488,7 @@ relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, c
 		return NULL;
 	}
 
-	new_relation(ps_tmp, ps_r1->attsize+ps_r2->attsize, ps_r1->size+ps_r1->size);
+	new_relation(ps_tmp, ps_r1->attsize+ps_r2->attsize, ps_r1->size+ps_r1->size, name, allias);
 	sort_relation(ps_r1,attr1,0,ps_r1->size);
 	sort_relation(ps_r2,attr2,0,ps_r2->size);
 
@@ -515,7 +519,7 @@ relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, c
 	return ps_tmp;
 }
 
-relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille){
+relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille, const char *name, const char *allias){
 	int i,j;
 	relation_t *ps_tmp = malloc(sizeof(*ps_tmp));
 
@@ -524,7 +528,7 @@ relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille){
 		return NULL;
 	}
 
-	new_relation(ps_tmp, taille, ps_r1->size);
+	new_relation(ps_tmp, taille, ps_r1->size, name, allias);
 
 	for(i = 0; i < ps_r1->size; i++)
 	{

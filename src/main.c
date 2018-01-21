@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 
 	printf("relation 1 : \n.");
 	relation_t p;
-	new_relation(&p, 3, 10);
+	new_relation(&p, 3, 10, "aaa", "a");
 	insert(&p, n);
 	disp_relation(&p);
 	printf("\n");
@@ -42,13 +42,13 @@ int main(int argc, char **argv)
 
 	printf("relation 2 :\n");
 	relation_t q;
-	new_relation(&q, 3, 10);
+	new_relation(&q, 3, 10, "bbb", "b");
 	insert(&q, n3);
 	disp_relation(&q);
 	printf("\n");
 
 	printf("relation 3 UNION(p, q) :\n");
-	relation_t *res = op_union(&q, &p);
+	relation_t *res = op_union(&q, &p, "res", "r");
 	disp_relation(res);
 	printf("\n");
 
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 
 	printf("relation 4 :\n");
 	relation_t a;
-	new_relation(&a, 3, 10);
+	new_relation(&a, 3, 10, "ccc", "c");
 	insert(&a, n5);
 	insert(&a, n4);
 	disp_relation(&a);
@@ -109,7 +109,7 @@ int main(int argc, char **argv)
 
 	printf("relation 5 : \n");
 	relation_t g;
-	new_relation(&g, 3, 10);
+	new_relation(&g, 3, 10, "ddd", "d");
 	insert(&g, n6);
 	insert(&g, n7);
 	insert(&g, n8);
@@ -117,48 +117,48 @@ int main(int argc, char **argv)
 
 
 	printf("relation 6 INTER(a,res):\n");
-	relation_t *c = op_inter(&a, res);
+	relation_t *c = op_inter(&a, res, "eee", "e");
 	disp_relation(c);
 	printf("\n");
 
 	printf("relation7 INTER(res,res):\n");
-	relation_t *d = op_inter(res,res);
+	relation_t *d = op_inter(res,res, "fff", "f");
 	disp_relation(d);
 	printf("\n");
 
 	printf("relation 8 RES_CST(res, 0) : \n");
-	relation_t *x = op_restriction_cst(res, 1, 4, 32);
+	relation_t *x = op_restriction_cst(res, 1, 4, 32, "ggg", "g");
 	disp_relation(x);
 	printf("\n");
 
 	printf("relaiton 9 RES_CST(res) : \n");
-	relation_t *y = op_restriction_cst(res, 2, 6, -70);
+	relation_t *y = op_restriction_cst(res, 2, 6, -70, "hhh", "h");
 	disp_relation(y);
 	printf("\n");
 
 	printf("relation 10 RES_ATT(res, 32)");
-	relation_t *z = op_restriction_att(res, 0, 6, 2);
+	relation_t *z = op_restriction_att(res, 0, 6, 2, "iii", "i");
 	disp_relation(z);
 	printf("\n");
 
 	printf("relation 11 RES_ATT(a)\n");
-	relation_t *zz = op_restriction_att(&a, 0, 6, 2);
+	relation_t *zz = op_restriction_att(&a, 0, 6, 2, "jjj", "j");
 	disp_relation(zz);
 	printf("\n");
 
 	printf("relation 12 REST_PROD_CAR(res,a)\n");
-	relation_t *zzz = op_produit_cartesien(res, &a);
+	relation_t *zzz = op_produit_cartesien(res, &a, "kkk", "k");
 	disp_relation(zzz);
 	printf("\n");
 
 	printf("relation 13 JOINTURE(relation 5, relation 12 , attr 0, attr 1)\n");
-	relation_t *yy = op_jointure(&g, zzz, 0, 1);
+	relation_t *yy = op_jointure(&g, zzz, 0, 1, "lll", "l");
 	disp_relation(yy);
 	printf("\n");
 
 	printf("relation 14 PROJECTION(relation 13, [0,1,6], 3)\n");
 	int attrs[3]={0,1,6};
-	relation_t *yyy = op_projection(yy, attrs, 3);
+	relation_t *yyy = op_projection(yy, attrs, 3, "mmm", "m");
 	disp_relation(yyy);
 	printf("\n");
 

@@ -16,6 +16,7 @@ struct relation
 	int size;
 	int sizemax;
 	char *name;
+	char *allias;
 
 	nuplet_t *line;
 };
@@ -57,7 +58,7 @@ struct token_val{
 
 void set(nuplet_t *ps_n, const int col, const int val);
 void new_nuplet(nuplet_t *ps_n, const int size);
-void new_relation(relation_t *ps_r, const int attsize, const int maxsize);
+void new_relation(relation_t *ps_r, const int attsize, const int maxsize, const char *name, const char *allias);
 void new_tab_relation(tab_relation_t *ps_tab, int max_r);
 void add_relation_tab(tab_relation_t *ps_tab, relation_t *ps_r);
 relation_t* find_relation(tab_relation_t *ps_tab, char *name);
@@ -76,12 +77,12 @@ void sort_relation(relation_t *ps_r1, int attr, int l, int r);
 
 nuplet_t get_nuplet(const relation_t *ps_r, const int ligne);
 
-relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2);
-relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2);
-relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int operateur, const int valeur);
-relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int operateur, const int att2);
-relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille);
-relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2);
-relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, const int attr2);
+relation_t *op_union(relation_t *ps_r1, relation_t *ps_r2, const char *name, const char *allias);
+relation_t *op_inter(relation_t *ps_r1, relation_t *ps_r2, const char *name, const char *allias);
+relation_t *op_restriction_cst(relation_t *ps_r1, const int att, const int operateur, const int valeur, const char *name, const char *allias);
+relation_t *op_restriction_att(relation_t *ps_r1, const int att1, const int operateur, const int att2, const char *name, const char *allias);
+relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille, const char *name, const char *allias);
+relation_t *op_produit_cartesien(relation_t *ps_r1, relation_t *ps_r2,const char *name, const char *allias);
+relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, const int attr2, const char *name, const char *allias);
 
 #endif // FUNC_H
