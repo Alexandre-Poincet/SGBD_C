@@ -518,6 +518,30 @@ relation_t *op_jointure(relation_t *ps_r1, relation_t *ps_r2, const int attr1, c
 	return ps_tmp;
 }
 
+relation_t *op_projection(relation_t *ps_r1, int* attributs, const int taille){
+	int i,j;
+	relation_t *ps_tmp = malloc(sizeof(*ps_tmp));
+
+	if(ps_tmp == NULL)
+	{
+		return NULL;
+	}
+
+	new_relation(ps_tmp, taille, ps_r1->size);
+
+	for(i = 0; i < ps_r1->size; i++)
+	{
+		nuplet_t tmp1 = ps_r1->line[i];
+		nuplet_t n;
+		new_nuplet(&n, taille);
+		for(int j=0; j<taille;j++){
+			set(&n,j,tmp1.p_val[attributs[j]]);
+		}
+		insert(ps_tmp,n);
+	}
+	return ps_tmp;
+}
+
 // ===== Sorting relation_t ======
 
 void sort_relation(relation_t *ps_r1, int attr, int l, int r)

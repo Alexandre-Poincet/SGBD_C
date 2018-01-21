@@ -156,6 +156,12 @@ int main(int argc, char **argv)
 	disp_relation(yy);
 	printf("\n");
 
+	printf("relation 14 PROJECTION(relation 13, [0,1,6], 3)\n");
+	int attrs[3]={0,1,6};
+	relation_t *yyy = op_projection(yy, attrs, 3);
+	disp_relation(yyy);
+	printf("\n");
+
 	int i;
 
 	for(i = 0; i < zzz->size; i++)
@@ -186,6 +192,8 @@ int main(int argc, char **argv)
 	free(g.line);
 	free(yy->line);
 	free(yy);
+	free(yyy->line);
+	free(yyy);
 
 	free(n.p_val);
 	free(n2.p_val);
